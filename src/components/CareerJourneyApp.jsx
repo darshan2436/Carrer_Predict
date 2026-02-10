@@ -31,13 +31,6 @@ export default function CareerJourneyApp() {
           type: 'slider',
           min: 1,
           max: 9
-        },
-        {
-          id: 'memoryCapability',
-          question: 'How strong is your memory and recall ability?',
-          subtitle: 'Remembering details, faces, facts, and experiences',
-          type: 'choice',
-          options: ['poor', 'medium', 'excellent']
         }
       ]
     },
@@ -57,71 +50,26 @@ export default function CareerJourneyApp() {
           max: 10
         },
         {
-          id: 'selfLearning',
-          question: 'Do you have self-learning capability?',
-          subtitle: 'Learning things on your own without formal instruction',
-          type: 'yesno'
-        },
-        {
           id: 'extraCourses',
-          question: 'Have you completed any extra courses?',
-          subtitle: 'Beyond your regular curriculum',
-          type: 'yesno'
+          question: 'How many extra courses have you completed?',
+          subtitle: 'Beyond your regular curriculum (0-10)',
+          type: 'number',  // Changed from 'yesno'
+          min: 0,
+          max: 10
         },
         {
           id: 'certifications',
           question: 'Which area have you earned certifications in?',
           subtitle: 'Select the most relevant one',
           type: 'choice',
-          options: ['None', 'information security', 'shell programming', 'r programming', 'distro making', 'machine learning', 'full stack', 'hadoop', 'app development', 'python']
+          options: ['None', 'app development', 'distro making', 'full stack', 'hadoop', 'information security', 'machine learning', 'python', 'r programming', 'shell programming']
         },
         {
           id: 'workshops',
           question: 'Which type of workshops have you attended?',
           subtitle: 'Select the most relevant one',
           type: 'choice',
-          options: ['None', 'testing', 'database security', 'game development', 'data science', 'system designing', 'hacking', 'cloud computing', 'web technologies']
-        }
-      ]
-    },
-    {
-      id: 'communication',
-      title: 'Communication & Personality',
-      subtitle: 'How you connect with the world',
-      icon: MessageCircle,
-      color: 'from-rose-500 to-pink-600',
-      questions: [
-        {
-          id: 'publicSpeaking',
-          question: 'How confident are you with public speaking and presentations?',
-          subtitle: 'From class presentations to stages',
-          type: 'slider',
-          min: 1,
-          max: 9
-        },
-        {
-          id: 'readingWritingSkills',
-          question: 'How strong are your reading comprehension and writing skills?',
-          subtitle: 'Expressing ideas clearly through words',
-          type: 'choice',
-          options: ['poor', 'medium', 'excellent']
-        },
-        {
-          id: 'teamWork',
-          question: 'Have you worked in collaborative teams before?',
-          type: 'yesno'
-        },
-        {
-          id: 'introvert',
-          question: 'Are you an introvert?',
-          subtitle: 'Do you prefer solitary activities and get exhausted by social interaction?',
-          type: 'yesno'
-        },
-        {
-          id: 'inputsFromSeniors',
-          question: 'Have you taken inputs from seniors or elders?',
-          subtitle: 'Seeking guidance from experienced people',
-          type: 'yesno'
+          options: ['None', 'cloud computing', 'data science', 'database security', 'game development', 'hacking', 'system designing', 'testing', 'web technologies']
         }
       ]
     },
@@ -137,20 +85,20 @@ export default function CareerJourneyApp() {
           question: 'What subjects or topics fascinate you most?',
           subtitle: 'Choose the area that interests you the most',
           type: 'choice',
-          options: ['programming', 'Management', 'data engineering', 'networks', 'Software Engineering', 'cloud computing', 'parallel computing', 'IOT', 'Computer Architecture', 'hacking']
+          options: ['Computer Architecture', 'IOT', 'Management', 'Software Engineering', 'cloud computing', 'data engineering', 'hacking', 'networks', 'parallel computing', 'programming']
         },
         {
           id: 'interestedCareer',
           question: 'What career areas excite you?',
           subtitle: 'Your dream career path',
           type: 'choice',
-          options: ['testing', 'system developer', 'Business process analyst', 'security', 'developer', 'cloud computing']
+          options: ['Business process analyst', 'cloud computing', 'developer', 'security', 'system developer', 'testing']
         },
         {
           id: 'bookType',
           question: 'What type of books do you gravitate toward?',
           type: 'choice',
-          options: ['Series', 'Autobiographies', 'Travel', 'Guide', 'Health', 'Journals', 'Anthology', 'Dictionaries', 'Prayer books', 'Art', 'Comics', 'Encyclopedias', 'Fantasy', 'Horror', 'Mystery', 'Poetry', 'Romance', 'Science fiction']
+          options: ['Action and Adventure', 'Anthology', 'Art', 'Autobiographies', 'Biographies', 'Childrens', 'Comics', 'Cookbooks', 'Diaries', 'Dictionaries', 'Drama', 'Encyclopedias', 'Fantasy', 'Guide', 'Health', 'History', 'Horror', 'Journals', 'Math', 'Mystery', 'Poetry', 'Prayer books', 'Religion-Spirituality', 'Romance', 'Satire', 'Science', 'Science fiction', 'Self help', 'Series', 'Travel', 'Trilogy']
         }
       ]
     },
@@ -165,7 +113,7 @@ export default function CareerJourneyApp() {
           id: 'companyType',
           question: 'What type of organization do you see yourself in?',
           type: 'choice',
-          options: ['BPA', 'Cloud Services', 'product development', 'Testing and Maintainance Services', 'SAaS services', 'Web Services', 'Finance', 'Sales and Marketing', 'Product based', 'Service Based']
+          options: ['BPA', 'Cloud Services', 'Finance', 'Product based', 'SAaS services', 'Sales and Marketing', 'Service Based', 'Testing and Maintainance Services', 'Web Services', 'product development']
         },
         {
           id: 'managementOrTechnical',
@@ -222,67 +170,46 @@ export default function CareerJourneyApp() {
     return answeredInStage === stage.questions.length;
   };
 
-const transformAnswersForAPI = () => {
-  const skillMap = {
-    poor: 3,
-    medium: 6,
-    excellent: 9
+  const transformAnswersForAPI = () => {
+    // Transform to match backend's exact expected format
+    return {
+      logicalQuotient: answers.logicalQuotient || 1,
+      
+      codingSkills: answers.codingSkills || 1,
+      
+      hackathons: {
+        participated: answers.hackathons > 0 ? 'yes' : 'no',
+        count: answers.hackathons || 0
+      },
+      
+      extraCourses: answers.extraCourses || 0, 
+      
+      workerType: answers.workerType || 'smart worker',
+      
+      managementOrTechnical: answers.managementOrTechnical || 'Technical',
+      
+      interestedSubjects: answers.interestedSubjects || 'programming',
+      
+      bookType: answers.bookType || 'Series',
+      
+      certifications: answers.certifications && answers.certifications !== 'None' 
+        ? answers.certifications 
+        : 'python',
+      
+      workshops: answers.workshops && answers.workshops !== 'None'
+        ? answers.workshops
+        : 'testing',
+      
+      companyType: answers.companyType || 'BPA',
+      
+      interestedCareer: answers.interestedCareer || 'developer'
+    };
   };
-
-  const hackathonCount =
-    answers.selfLearning === 'yes'
-      ? Math.floor(Math.random() * 7) + 1
-      : 0;
-
-  return {
-    logicalQuotient: answers.logicalQuotient || 1,
-
-    hackathons: {
-      participated: answers.selfLearning || 'no',
-      count: answers.selfLearning === 'yes' ? hackathonCount : 0
-    },
-
-    codingSkills: answers.codingSkills || 1,
-
-    publicSpeaking: answers.publicSpeaking || 0,
-
-    selfLearning: answers.selfLearning || 'no',
-
-    extraCourses: answers.extraCourses === 'yes' ? 2 : 0,
-
-    certifications: answers.certifications && answers.certifications !== 'None' ? 1 : 0,
-
-    workshops: answers.workshops && answers.workshops !== 'None'
-      ? Math.floor(Math.random() * 4) + 1
-      : 0,
-
-    readingWritingSkills: skillMap[answers.readingWritingSkills] || 3,
-
-    memoryCapability: skillMap[answers.memoryCapability] || 3,
-
-    interestedSubjects: answers.interestedSubjects || 'programming',
-
-    interestedCareer: answers.interestedCareer || 'testing',
-
-    companyType: answers.companyType || 'BPA',
-
-    inputsFromSeniors: answers.inputsFromSeniors || 'no',
-
-    bookType: answers.bookType || 'Series',
-
-    managementOrTechnical: answers.managementOrTechnical || 'Management',
-
-    workerType: answers.workerType || 'smart worker',
-
-    teamWork: answers.teamWork || 'yes',
-
-    personality: answers.introvert || 'yes'
-  };
-};
-
 
   const generateResults = async () => {
     const transformedAnswers = transformAnswersForAPI();
+    
+    console.log('Sending to API:', transformedAnswers);
     
     try {
       const response = await fetch('http://localhost:5000/predict-career', {
@@ -292,16 +219,24 @@ const transformAnswersForAPI = () => {
       });
       
       if (!response.ok) {
-        throw new Error('API request failed');
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API request failed: ${response.status}`);
       }
       
       const data = await response.json();
       
+      console.log('API Response:', data);
+      
+      // Extract the predicted job role from API response
+      const predictedJob = data.suggestedJobRole || data.predicted_role || data['Suggested Job Role'] || 'Software Developer';
+      
       setFinalResults({
-        suggestedJobRole: data.predicted_role || data['Suggested Job Role'],
+        suggestedJobRole: predictedJob,
+        apiPrediction: predictedJob, // Store the exact API prediction
         personalitySummary: generatePersonalitySummary(),
         skillsToImprove: generateSkillsToImprove(),
-        careerRoles: generateCareerRoles(),
+        careerRoles: generateCareerRoles(predictedJob),
         motivation: generateMotivation()
       });
       
@@ -309,12 +244,15 @@ const transformAnswersForAPI = () => {
     } catch (error) {
       console.error('API Error:', error);
       
+      // Fallback if API fails
       setFinalResults({
         suggestedJobRole: generateCareerRoles()[0],
+        apiPrediction: null,
         personalitySummary: generatePersonalitySummary(),
         skillsToImprove: generateSkillsToImprove(),
         careerRoles: generateCareerRoles(),
-        motivation: generateMotivation()
+        motivation: generateMotivation(),
+        error: 'Unable to connect to prediction service. Showing general recommendations.'
       });
       
       setCurrentStage(stages.length);
@@ -333,18 +271,8 @@ const transformAnswersForAPI = () => {
       lines.push("Your strengths lie beyond pure technical skills—and that's exactly what the world needs.");
     }
     
-    if (answers.selfLearning === 'yes') {
+    if (answers.hackathons > 0) {
       lines.push("You're a self-directed learner who thrives on autonomy and curiosity.");
-    }
-    
-    if (answers.publicSpeaking >= 7 || answers.readingWritingSkills === 'excellent') {
-      lines.push("Your ability to communicate ideas sets you apart from purely technical professionals.");
-    }
-    
-    if (answers.introvert === 'yes') {
-      lines.push("You process deeply, think carefully, and create meaningful work through focused attention.");
-    } else {
-      lines.push("You energize teams, build connections easily, and thrive in collaborative environments.");
     }
     
     lines.push("The path ahead is yours to shape, and you have everything you need to succeed.");
@@ -358,28 +286,41 @@ const transformAnswersForAPI = () => {
     if ((answers.codingSkills || 0) < 6) {
       suggestions.push({ skill: 'Programming & Development', reason: 'Building technical skills opens countless doors' });
     }
-    if ((answers.publicSpeaking || 0) < 6) {
-      suggestions.push({ skill: 'Public Speaking & Presentation', reason: 'Your ideas deserve to be heard clearly' });
-    }
-    if (answers.readingWritingSkills === 'poor') {
-      suggestions.push({ skill: 'Written Communication', reason: 'Clear writing is thinking made visible' });
-    }
-    if (answers.teamWork === 'no') {
-      suggestions.push({ skill: 'Collaborative Teamwork', reason: 'The best work happens when minds come together' });
-    }
-    if (answers.selfLearning === 'no') {
-      suggestions.push({ skill: 'Self-Directed Learning', reason: 'Independence in learning accelerates growth' });
-    }
     if ((answers.logicalQuotient || 0) < 6) {
       suggestions.push({ skill: 'Analytical Thinking', reason: 'Structured problem-solving is universally valuable' });
+    }
+    if (answers.hackathons === 0 || !answers.hackathons) {
+      suggestions.push({ skill: 'Practical Experience', reason: 'Hands-on projects and competitions accelerate learning' });
+    }
+    if (answers.extraCourses === 'no') {
+      suggestions.push({ skill: 'Continuous Learning', reason: 'Extra courses expand your knowledge and opportunities' });
     }
     
     return suggestions.slice(0, 3);
   };
 
-  const generateCareerRoles = () => {
-    const roles = ['Software Developer', 'Web Developer', 'Applications Developer', 'Database Developer', 'Software Engineer'];
-    return roles.slice(0, 2);
+  const generateCareerRoles = (predictedJob = null) => {
+    // If we have a predicted job, generate related roles
+    if (predictedJob) {
+      const roleMapping = {
+        'Software Developer': ['Full Stack Developer', 'Backend Developer', 'Frontend Developer'],
+        'Web Developer': ['Full Stack Developer', 'Frontend Developer', 'UI Developer'],
+        'Database Developer': ['Data Engineer', 'Database Administrator', 'Backend Developer'],
+        'Applications Developer': ['Mobile Developer', 'Software Engineer', 'Full Stack Developer'],
+        'Software Engineer': ['Senior Software Engineer', 'Tech Lead', 'Software Architect'],
+        'Testing': ['QA Engineer', 'Test Automation Engineer', 'Quality Assurance Lead'],
+        'Developer': ['Software Developer', 'Full Stack Developer', 'Applications Developer'],
+        'Security': ['Security Analyst', 'Cybersecurity Engineer', 'Security Consultant'],
+        'Business process analyst': ['Business Analyst', 'Process Improvement Specialist', 'Data Analyst'],
+        'System developer': ['Systems Engineer', 'DevOps Engineer', 'Infrastructure Developer'],
+        'Cloud computing': ['Cloud Engineer', 'DevOps Engineer', 'Cloud Architect']
+      };
+      
+      return roleMapping[predictedJob] || ['Software Developer', 'Web Developer'];
+    }
+    
+    // Fallback roles
+    return ['Software Developer', 'Web Developer'];
   };
 
   const generateMotivation = () => {
@@ -660,6 +601,13 @@ function FinalResults({ results }) {
           </p>
         </div>
 
+        {/* Error message if API failed */}
+        {results.error && (
+          <div className="bg-amber-50 border border-amber-200 rounded-3xl p-6 text-center">
+            <p className="text-amber-800 font-medium">{results.error}</p>
+          </div>
+        )}
+
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-stone-200">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-3 bg-violet-100 rounded-2xl">
@@ -682,10 +630,17 @@ function FinalResults({ results }) {
             </div>
             <div className="space-y-6">
               <div>
-                <p className="text-sm font-medium text-stone-600 mb-2">PRIMARY RECOMMENDATION</p>
+                <p className="text-sm font-medium text-stone-600 mb-2">
+                  {results.apiPrediction ? 'AI-POWERED RECOMMENDATION' : 'PRIMARY RECOMMENDATION'}
+                </p>
                 <p className="text-4xl font-bold bg-gradient-to-r from-violet-600 via-rose-600 to-amber-600 bg-clip-text text-transparent">
                   {results.suggestedJobRole}
                 </p>
+                {results.apiPrediction && (
+                  <p className="text-sm text-stone-500 mt-2">
+                    ✨ Based on AI analysis of your unique profile
+                  </p>
+                )}
               </div>
               
               <div className="pt-6 border-t border-stone-200">
