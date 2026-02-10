@@ -322,7 +322,7 @@ export default function CareerJourneyApp() {
     // Fallback roles
     return ['Software Developer', 'Web Developer'];
   };
-  
+
   const generateMotivation = () => {
     const motivations = [
       "Your journey is just beginning. Every skill you build brings you closer to the person you're becoming.",
@@ -358,7 +358,7 @@ export default function CareerJourneyApp() {
             onClick={() => setCurrentStage(0)} 
             className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-stone-200 cursor-pointer hover:bg-white/80 transition-colors active:scale-95"
           >
-            <span className="text-sm font-medium text-stone-700">AI Career Mentor</span>
+            <span className="text-sm font-medium text-stone-700">AI Career Sense</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-stone-900 leading-tight">
             Your Journey to <br />
