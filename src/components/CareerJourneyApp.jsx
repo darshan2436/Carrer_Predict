@@ -323,6 +323,11 @@ export default function CareerJourneyApp() {
     return ['Software Developer', 'Web Developer'];
   };
 
+  // const changeToInitial = (e) => {
+  //   e.preventDefault();
+  //   setCurrentStage(0); 
+  // };
+
   const generateMotivation = () => {
     const motivations = [
       "Your journey is just beginning. Every skill you build brings you closer to the person you're becoming.",
@@ -354,8 +359,10 @@ export default function CareerJourneyApp() {
       {/* Header */}
       <header className="pt-12 pb-8 px-6 text-center">
         <div className="max-w-2xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-stone-200">
-            <Sparkles className="w-4 h-4 text-violet-600" />
+          <div 
+            onClick={() => setCurrentStage(0)} 
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-stone-200 cursor-pointer hover:bg-white/80 transition-colors active:scale-95"
+          >
             <span className="text-sm font-medium text-stone-700">AI Career Mentor</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-stone-900 leading-tight">
@@ -442,7 +449,7 @@ export default function CareerJourneyApp() {
                   {currentStage < stages.length - 1 ? (
                     <>Continue to Next Stage <ArrowRight className="w-6 h-6" /></>
                   ) : (
-                    <>See My Results <Sparkles className="w-6 h-6" /></>
+                    <>See My Results </>
                   )}
                 </button>
               </div>
@@ -548,9 +555,6 @@ function ReflectionScreen({ currentStage, totalStages }) {
       <div className="max-w-3xl mx-6 text-center space-y-8">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-rose-500 to-amber-500 rounded-full blur-3xl opacity-40"></div>
-          <div className="relative w-24 h-24 bg-gradient-to-br from-violet-400 via-rose-400 to-amber-400 rounded-full mx-auto flex items-center justify-center shadow-2xl">
-            <Sparkles className="w-12 h-12 text-white" />
-          </div>
         </div>
 
         <div className="space-y-4">
@@ -587,18 +591,12 @@ function FinalResults({ results }) {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-stone-50 to-neutral-100 py-12 px-6">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-6 py-12">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-violet-500 via-rose-500 to-amber-500 rounded-full mb-6">
-            <Sparkles className="w-12 h-12 text-white" />
-          </div>
           <h1 className="text-5xl md:text-6xl font-bold text-stone-900 leading-tight">
             Your Journey <br />
             <span className="bg-gradient-to-r from-violet-600 via-rose-600 to-amber-600 bg-clip-text text-transparent">
               Revealed
             </span>
           </h1>
-          <p className="text-xl text-stone-600 max-w-2xl mx-auto">
-            I've learned so much about you. Here's what I see.
-          </p>
         </div>
 
         {/* Error message if API failed */}
@@ -608,24 +606,9 @@ function FinalResults({ results }) {
           </div>
         )}
 
-        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-stone-200">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-violet-100 rounded-2xl">
-              <Heart className="w-6 h-6 text-violet-600" />
-            </div>
-            <h2 className="text-3xl font-bold text-stone-900">Who You Are</h2>
-          </div>
-          <p className="text-xl text-stone-700 leading-relaxed">
-            {results.personalitySummary}
-          </p>
-        </div>
-
         <div className="bg-gradient-to-r from-violet-500 via-rose-500 to-amber-500 rounded-3xl p-1 shadow-xl">
           <div className="bg-white rounded-[23px] p-8 md:p-12">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 bg-amber-100 rounded-2xl">
-                <Target className="w-6 h-6 text-amber-600" />
-              </div>
               <h2 className="text-3xl font-bold text-stone-900">Your Path Forward</h2>
             </div>
             <div className="space-y-6">
@@ -638,7 +621,7 @@ function FinalResults({ results }) {
                 </p>
                 {results.apiPrediction && (
                   <p className="text-sm text-stone-500 mt-2">
-                    ✨ Based on AI analysis of your unique profile
+                     Based on AI analysis of your unique profile
                   </p>
                 )}
               </div>
@@ -654,39 +637,6 @@ function FinalResults({ results }) {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-stone-200">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-rose-100 rounded-2xl">
-              <TrendingUp className="w-6 h-6 text-rose-600" />
-            </div>
-            <h2 className="text-3xl font-bold text-stone-900">Areas to Strengthen</h2>
-          </div>
-          <div className="space-y-4">
-            {results.skillsToImprove.map((item, idx) => (
-              <div key={idx} className="flex gap-4 p-5 bg-stone-50 rounded-2xl">
-                <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-violet-500 to-rose-500 rounded-full flex items-center justify-center text-white font-bold">
-                  {idx + 1}
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-stone-900 mb-1">{item.skill}</h3>
-                  <p className="text-stone-600">{item.reason}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-violet-600 via-rose-600 to-amber-600 rounded-3xl p-8 md:p-12 text-white shadow-xl text-center">
-          <Award className="w-16 h-16 mx-auto mb-6 opacity-90" />
-          <p className="text-2xl md:text-3xl font-bold leading-relaxed mb-6">
-            {results.motivation}
-          </p>
-          <div className="flex items-center justify-center gap-2 text-white/80 text-sm">
-            <Heart className="w-4 h-4" />
-            <span>Keep building. Keep growing. Keep believing.</span>
           </div>
         </div>
 
