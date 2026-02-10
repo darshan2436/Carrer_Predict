@@ -36,9 +36,21 @@ categorical_col = df[['self-learning capability?', 'Extra-courses did','reading 
 for i in categorical_col:
     print(df[i].value_counts(), end="\n\n")
 
+# ==========================================
+# PLOT 1: Count Plot (Target Variable Distribution)
+# Type: Vertical Bar Chart (Count Plot)
+# Purpose: This visualizes how many samples exist for each 'Suggested Job Role'.
+# Why: It helps check for "Class Imbalance". If one job role has very few bars, the model might struggle to learn it.
+# ==========================================
 sns.set(rc={'figure.figsize':(50,10)})
 sns.countplot(x = df["Suggested Job Role"])
 
+# ==========================================
+# PLOT 2: Correlation Heatmap
+# Type: Heatmap
+# Purpose: This visualizes the correlation coefficient (from -1 to 1) between numerical features.
+# Why: Lighter colors (closer to 1) indicate a strong positive relationship. This helps identify if features are redundant (collinear).
+# ==========================================
 corr = df[['Logical quotient rating', 'hackathons',
            'coding skills rating', 'public speaking points']].corr()
 f,axes = plt.subplots(1,1,figsize = (10,10))
@@ -46,6 +58,11 @@ sns.heatmap(corr,square=True,annot = True,linewidth = .4,center = 2,ax = axes)
 
 print(df["Interested subjects"].value_counts())
 
+# ==========================================
+# PLOT 3: Interested Subjects Distribution
+# Type: Horizontal Bar Chart
+# Purpose: Shows the frequency of different subjects candidates are interested in.
+# Why: Horizontal bars are used here because the category names (subjects) are long and would overlap on a vertical chart.
 # Figure Size
 fig, ax = plt.subplots(figsize=(12,6))
 
@@ -86,14 +103,18 @@ print(df["Interested Type of Books"].value_counts())
 
 print(df["certifications"].value_counts())
 
+# ==========================================
+# PLOT 4: Certifications Distribution
+# Type: Horizontal Bar Chart
+# Purpose: Visualizes which certifications are most common among candidates.
+# Why: Allows quick comparison of popularity between different certification types.
+# ==========================================
 # Figure Size
 fig, ax = plt.subplots(figsize=(12,6))
 
 # Horizontal Bar Plot
 title_cnt=df.certifications.value_counts().sort_values(ascending=False).reset_index()
 mn= ax.barh(title_cnt.iloc[:,0], title_cnt.iloc[:,1],edgecolor='black', color=sns.color_palette('pastel',len(title_cnt)))
-
-
 
 # Remove axes splines
 for s in ['top','bottom','left','right']:
@@ -126,6 +147,12 @@ plt.show()
 
 print(df["workshops"].value_counts())
 
+# ==========================================
+# PLOT 5: Workshops Attended Distribution
+# Type: Horizontal Bar Chart
+# Purpose: Displays the count of different workshops attended.
+# Why: Helps identify the most popular skill-building activities.
+# ==========================================
 # Figure Size
 fig, ax = plt.subplots(figsize=(12,6))
 
@@ -166,6 +193,11 @@ plt.show()
 
 print(df["Type of company want to settle in?"].value_counts())
 
+# ==========================================
+# PLOT 6: Company Preference Distribution
+# Type: Horizontal Bar Chart
+# Purpose: Shows candidate preferences for different company types (e.g., Service vs. Product based).
+# ==========================================
 # Figure Size
 fig, ax = plt.subplots(figsize=(12,6))
 
@@ -206,6 +238,11 @@ plt.show()
 
 print(df["interested career area "].value_counts())
 
+# ==========================================
+# PLOT 7: Career Area Interest Distribution
+# Type: Horizontal Bar Chart
+# Purpose: Visualizes which career areas candidates are most interested in.
+# ==========================================
 # Figure Size
 fig, ax = plt.subplots(figsize=(10,4)) #width,height
 
