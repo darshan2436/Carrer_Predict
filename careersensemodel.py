@@ -383,18 +383,6 @@ xgb_y_pred_encoded = xgb.predict(x_test)
 xgb_cm = confusion_matrix(y_test_encoded, xgb_y_pred_encoded)
 xgb_accuracy = accuracy_score(y_test_encoded, xgb_y_pred_encoded)
 print("confusion matrics=",xgb_cm)
-
-# ==========================================
-# PLOT: Confusion Matrix Heatmap
-# Purpose: Visualizes how many predictions were correct vs incorrect for each class.
-# ==========================================
-plt.figure(figsize=(10, 8))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-plt.xlabel('Predicted Label')
-plt.ylabel('True Label')
-plt.title('Confusion Matrix Heatmap')
-plt.show()
-
 print("  ")
 print("accuracy=",xgb_accuracy*10)
 
