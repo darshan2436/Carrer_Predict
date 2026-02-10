@@ -322,12 +322,7 @@ export default function CareerJourneyApp() {
     // Fallback roles
     return ['Software Developer', 'Web Developer'];
   };
-
-  // const changeToInitial = (e) => {
-  //   e.preventDefault();
-  //   setCurrentStage(0); 
-  // };
-
+  
   const generateMotivation = () => {
     const motivations = [
       "Your journey is just beginning. Every skill you build brings you closer to the person you're becoming.",
